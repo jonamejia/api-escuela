@@ -1,10 +1,10 @@
 const pool = require("../src/db");
 
 const getAllRequest = async (req, res, next) => {
-  //Obtener todos los de una tabla
+  //Obtener todos los datos de una tabla
   try {
     const result = await pool.query("SELECT * FROM login");
-    res.json(result.rows);
+    res.json(result.rows)
   } catch (error) {
     next(error);
   }
@@ -13,12 +13,12 @@ const getAllRequest = async (req, res, next) => {
 const createUser = async (req, res, next) => {
   //insertar datos a una tabla
   try {
-    const { usuario, pass } = req.body;
+    console.log(req.body);
+    const { primerNombre, segundoNombre, primerApellido, segundoApellido } = req.body;
     const result = await pool.query(
-      "insert into login(usuario, pass) values ($1, $2) returning *",
-      [usuario, pass]
+      "INSERT INTO usuario(primernombre, segundonombre, primerapellido, segundoapellido) VALUES ($1,$2,$3,$4)",
+      [primerNombre, segundoNombre, primerApellido, segundoApellido]
     );
-    res.json(result.rows[0]);
   } catch (error) {
     next(error);
   }
@@ -32,14 +32,12 @@ const getRequest = async (req, res, next) => {
 
     res.json(result.rows[0]);
   } catch (error) {
-
     next(error);
   }
 };
 
 const deleteUser = async (req, res, next) => {
   try {
-
     const { id } = req.params;
     const result = await pool.query("delete from login where id = $1", [id]);
     if (result.rows.length === 0) {
@@ -50,12 +48,11 @@ const deleteUser = async (req, res, next) => {
 
     res.sendStatus(204);
   } catch (error) {
-
     next(error);
   }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { usuario, pass } = req.body;
@@ -70,7 +67,6 @@ const updateUser = async (req, res) => {
       });
     }
   } catch (error) {
-
     next(error);
   }
 };

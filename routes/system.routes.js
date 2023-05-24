@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const pool = require("../src/db.js");
+
 const {
   getAllRequest,
   createUser,
@@ -10,10 +11,10 @@ const {
 
 const router = Router();
 
-router.get("/", getAllRequest);
-router.get("/:id", getRequest);
-router.post("/", createUser);
-router.delete("/:id", deleteUser);
-router.put("/:id", updateUser);
+router.get("/usuario", getAllRequest);
+router.get("/usuario/:id", getRequest);
+router.post("/usuario", createUser);
+router.delete("/usuario/:id", deleteUser);
+router.put("/usuario/:id", updateUser);
 
 module.exports = router;
