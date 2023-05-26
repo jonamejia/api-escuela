@@ -3,7 +3,7 @@ const pool = require("../src/db");
 const getAllRequest = async (req, res, next) => {
   //Obtener todos los datos de una tabla
   try {
-    const result = await pool.query("SELECT * FROM login");
+    const result = await pool.query("SELECT * FROM usuarios");
     res.json(result.rows)
   } catch (error) {
     next(error);
@@ -71,10 +71,30 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+const obtenerDatosAlumno = async(req, res, next) =>{
+  try{
+    const data = await pool.query("select * from alumno");
+    res.json(data.rows)
+  } catch( error){
+    next(error);
+  }
+}
+
+const insertarAlumnos = async (req, res, next) => {
+  try{
+    const {nombre, apellido, curso, fecha_nacimiento} = req.body
+    const data = await pool.query("insert into alumno(nombre, apellido, curso, fecha_nacimiento) values ($1,$2,$3,$4)",[nombre, apellido, curso, fecha_nacimiento])
+  } catch( error){
+    next(error);
+  }
+}
+
 module.exports = {
   getAllRequest,
   createUser,
   getRequest,
   deleteUser,
   updateUser,
+  obtenerDatosAlumno,
+  insertarAlumnos
 };

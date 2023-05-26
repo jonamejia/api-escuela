@@ -6,7 +6,9 @@ const {
   createUser,
   getRequest,
   deleteUser,
-  updateUser
+  updateUser,
+  obtenerDatosAlumno,
+  insertarAlumnos
 } = require("../controllers/system.controller.js");
 
 const router = Router();
@@ -16,5 +18,10 @@ router.get("/usuario/:id", getRequest);
 router.post("/usuario", createUser);
 router.delete("/usuario/:id", deleteUser);
 router.put("/usuario/:id", updateUser);
+
+
+//Alumnos
+router.get("/alumno", obtenerDatosAlumno);
+router.post("/alumno", insertarAlumnos);
 
 module.exports = router;
