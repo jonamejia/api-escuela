@@ -13,15 +13,22 @@ const {
 
 const router = Router();
 
-router.get("/usuario", getAllRequest);
-router.get("/usuario/:id", getRequest);
-router.post("/usuario", createUser);
-router.delete("/usuario/:id", deleteUser);
-router.put("/usuario/:id", updateUser);
+//Usuarios || Login
+router.get("/login", getAllRequest);
+router.get("/login:id", getRequest);
+router.post("/login", createUser);
+router.delete("/login/:id", deleteUser);
+router.put("/login/:id", updateUser);
 
 
 //Alumnos
 router.get("/alumno", obtenerDatosAlumno);
 router.post("/alumno", insertarAlumnos);
+
+
+
+//Cursos
+// router.get("/curso", obtenerCursos);
+// router.post("/curso", insertarCurso);
 
 module.exports = router;
