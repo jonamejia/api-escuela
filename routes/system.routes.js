@@ -8,7 +8,8 @@ const {
   deleteUser,
   updateUser,
   obtenerDatosAlumno,
-  insertarAlumnos
+  insertarAlumnos,
+  eliminarAlumno
 } = require("../controllers/system.controller.js");
 
 const router = Router();
@@ -24,6 +25,7 @@ router.put("/login/:id", updateUser);
 //Alumnos
 router.get("/alumno", obtenerDatosAlumno);
 router.post("/alumno", insertarAlumnos);
+router.delete("/alumno/:alumno_id", eliminarAlumno);
 
 
 

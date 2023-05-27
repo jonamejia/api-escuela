@@ -80,7 +80,6 @@ const updateUser = async (req, res, next) => {
 
 
 /*Metodos solo para alumnos */
-
 const obtenerDatosAlumno = async(req, res, next) =>{
   try{
     const data = await pool.query("SELECT * FROM alumno");
@@ -102,6 +101,18 @@ const insertarAlumnos = async (req, res, next) => {
   }
 }
 
+const eliminarAlumno = async (req, res, next) => {
+  try{
+    const {alumno_id} = req.params
+    const eliminar = await pool.query("DELETE FROM alumno where alumno_id = $1", [alumno_id]);
+    console.log(eliminar.json());
+  }catch(error) {
+    next(error);
+  }
+
+
+}
+
 module.exports = {
   getAllRequest,
   createUser,
@@ -109,5 +120,6 @@ module.exports = {
   deleteUser,
   updateUser,
   obtenerDatosAlumno,
-  insertarAlumnos
+  insertarAlumnos,
+  eliminarAlumno
 };
