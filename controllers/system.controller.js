@@ -1,29 +1,26 @@
 const pool = require("../src/db");
 
-
 /*Metodos solo para lo que es login  */
 const getAllRequest = async (req, res, next) => {
   //Obtener todos los datos de una tabla
   try {
     const result = await pool.query("SELECT * FROM login");
     res.json(result.rows);
-
   } catch (error) {
     next(error);
   }
 };
 
-
 const createUser = async (req, res, next) => {
   //insertar datos a una tabla
   try {
     console.log(req.body);
-    const { primerNombre, segundoNombre, primerApellido, segundoApellido } = req.body;
+    const { primerNombre, segundoNombre, primerApellido, segundoApellido } =
+      req.body;
     const result = await pool.query(
       "INSERT INTO usuario(primernombre, segundonombre, primerapellido, segundoapellido) VALUES ($1,$2,$3,$4)",
       [primerNombre, segundoNombre, primerApellido, segundoApellido]
     );
-
   } catch (error) {
     next(error);
   }
@@ -35,7 +32,6 @@ const getRequest = async (req, res, next) => {
     const { id } = req.params;
     const result = await pool.query("select * from login where id = $1", [id]);
     res.json(result.rows[0]);
-
   } catch (error) {
     next(error);
   }
@@ -78,40 +74,45 @@ const updateUser = async (req, res, next) => {
 };
 /*Metodos solo para lo que es login  */
 
-
 /*Metodos solo para alumnos */
-const obtenerDatosAlumno = async(req, res, next) =>{
-  try{
+const obtenerDatosAlumno = async (req, res, next) => {
+  try {
     const data = await pool.query("SELECT * FROM alumno");
-    res.json(data.rows)
-  } catch( error){
+    res.json(data.rows);
+  } catch (error) {
     next(error);
   }
-}
+};
 
 const insertarAlumnos = async (req, res, next) => {
-  try{
-    const {nombre_alumno, apellido_alumno, fecha_nacimiento, direccion} = req.body
+  try {
+    const { nombre_alumno, apellido_alumno, fecha_nacimiento, direccion } =
+      req.body;
     console.log(nombre_alumno, apellido_alumno, fecha_nacimiento, direccion);
 
-    const data = await pool.query("INSERT INTO alumno(nombre_alumno, apellido_alumno, fecha_nacimiento, direccion) values ($1,$2,$3,$4)",[nombre_alumno, apellido_alumno, fecha_nacimiento, direccion]);
+    const data =  await pool.query(
+      "INSERT INTO alumno(nombre_alumno, apellido_alumno, fecha_nacimiento, direccion) values ($1,$2,$3,$4)",
+      [nombre_alumno, apellido_alumno, fecha_nacimiento, direccion]
+    );
+    res.json();
 
-  } catch( error){
+  } catch (error) {
     next(error);
   }
-}
+};
 
 const eliminarAlumno = async (req, res, next) => {
-  try{
-    const {alumno_id} = req.params
-    const eliminar = await pool.query("DELETE FROM alumno where alumno_id = $1", [alumno_id]);
+  try {
+    const { alumno_id } = req.params;
+    const eliminar = await pool.query(
+      "DELETE FROM alumno where alumno_id = $1",
+      [alumno_id]
+    );
     console.log(eliminar.json());
-  }catch(error) {
+  } catch (error) {
     next(error);
   }
-
-
-}
+};
 
 module.exports = {
   getAllRequest,
@@ -121,5 +122,5 @@ module.exports = {
   updateUser,
   obtenerDatosAlumno,
   insertarAlumnos,
-  eliminarAlumno
+  eliminarAlumno,
 };
