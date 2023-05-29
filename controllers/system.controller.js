@@ -90,12 +90,11 @@ const insertarAlumnos = async (req, res, next) => {
       req.body;
     console.log(nombre_alumno, apellido_alumno, fecha_nacimiento, direccion);
 
-    const data =  await pool.query(
+    const data = await pool.query(
       "INSERT INTO alumno(nombre_alumno, apellido_alumno, fecha_nacimiento, direccion) values ($1,$2,$3,$4)",
       [nombre_alumno, apellido_alumno, fecha_nacimiento, direccion]
     );
     res.json();
-
   } catch (error) {
     next(error);
   }
@@ -114,6 +113,104 @@ const eliminarAlumno = async (req, res, next) => {
   }
 };
 
+const obtenerAlumno = async (req, res, next) => {
+  //obtener un usuario en especifico
+  try {
+    const { alumno_id } = req.params;
+    const actualizar = await pool.query(
+      "SELECT * FROM alumno WHERE alumno_id = $1",
+      [alumno_id]
+    );
+    res.json(actualizar.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const actualizarAlumno = async (req, res, next) => {
+  try {
+    const { alumno_id } = req.params;
+    const { nombre_alumno, apellido_alumno, fecha_nacimiento, direccion } =
+      req.body;
+    const actualizar = await pool.query(
+      "UPDATE alumno SET nombre_alumno = $2, apellido_alumno = $3, fecha_nacimiento = $4, direccion = $5 WHERE alumno_id = $1",
+      [alumno_id, nombre_alumno, apellido_alumno, fecha_nacimiento, direccion]
+    );
+    res.json(actualizar.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//Maestros
+const obtenerMaestroDatos = async (req, res, next) => {
+  try {
+    const data = await pool.query("SELECT * FROM maestros");
+    console.log(res.json(data.rows));
+  } catch (error) {
+    next(error);
+    console.log("Error al obetener maestros");
+  }
+};
+
+const insertarMaestro = async (req, res, next) => {
+  try {
+    const { nombre_maestro, apellido_maestro, especialidad } = req.body;
+    const data = await pool.query(
+      "INSERT INTO maestros (nombre_maestro, apellido_maestro, especialidad)  VALUES ($1, $2,$3)",
+      [nombre_maestro, apellido_maestro, especialidad]
+    );
+
+    res.json();
+  } catch (error) {
+    next(error);
+  }
+};
+
+const eliminarMaestro = async (req, res, next) => {
+  try {
+    const { maestro_id } = req.params;
+    const eliminar = await pool.query(
+      "DELETE FROM maestros where maestro_id = $1",
+      [maestro_id]
+    );
+    console.log(eliminar.json());
+  } catch (error) {
+    next(error);
+  }
+};
+
+const obtenerMaestro = async (req, res, next) => {
+  //obtener un usuario en especifico
+  try {
+    const { maestro_id } = req.params;
+    const actualizar = await pool.query(
+      "SELECT * FROM maestros WHERE maestro_id = $1",
+      [maestro_id]
+    );
+    res.json(actualizar.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+const actualizarMaestro = async (req, res, next) => {
+  try {
+    const { maestro_id } = req.params;
+    const { nombre_maestro, apellido_maestro, especialidad} =
+      req.body;
+    const actualizar = await pool.query(
+      "UPDATE maestros SET nombre_maestro= $2, apellido_maestro = $3, especialidad = $4 WHERE maestro_id = $1",
+      [maestro_id, nombre_maestro, apellido_maestro, especialidad]
+    );
+    res.json();
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 module.exports = {
   getAllRequest,
   createUser,
@@ -123,4 +220,11 @@ module.exports = {
   obtenerDatosAlumno,
   insertarAlumnos,
   eliminarAlumno,
+  obtenerAlumno,
+  actualizarAlumno,
+  obtenerMaestroDatos,
+  obtenerMaestro,
+  insertarMaestro,
+  eliminarMaestro,
+  actualizarMaestro
 };

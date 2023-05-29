@@ -9,7 +9,14 @@ const {
   updateUser,
   obtenerDatosAlumno,
   insertarAlumnos,
-  eliminarAlumno
+  eliminarAlumno,
+  actualizarAlumno,
+  obtenerAlumno,
+  obtenerMaestroDatos,
+  insertarMaestro,
+  eliminarMaestro,
+  obtenerMaestro,
+  actualizarMaestro
 } = require("../controllers/system.controller.js");
 
 const router = Router();
@@ -21,12 +28,19 @@ router.post("/login", createUser);
 router.delete("/login/:id", deleteUser);
 router.put("/login/:id", updateUser);
 
-
 //Alumnos
 router.get("/alumno", obtenerDatosAlumno);
+router.get("/alumno/:alumno_id", obtenerAlumno);
+router.put("/alumno/:alumno_id", actualizarAlumno);
 router.post("/alumno", insertarAlumnos);
 router.delete("/alumno/:alumno_id", eliminarAlumno);
 
+//Maestros
+router.get("/maestro", obtenerMaestroDatos);
+router.get("/maestro/:maestro_id", obtenerMaestro);
+router.put("/maestro/:maestro_id", actualizarMaestro);
+router.post("/maestro", insertarMaestro);
+router.delete("/maestro/:maestro_id", eliminarMaestro);
 
 
 //Cursos
