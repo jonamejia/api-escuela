@@ -136,7 +136,7 @@ const actualizarAlumno = async (req, res, next) => {
       "UPDATE alumno SET nombre_alumno = $2, apellido_alumno = $3, fecha_nacimiento = $4, direccion = $5 WHERE alumno_id = $1",
       [alumno_id, nombre_alumno, apellido_alumno, fecha_nacimiento, direccion]
     );
-    res.json(actualizar.rows[0]);
+    res.json();
   } catch (error) {
     next(error);
   }
@@ -146,7 +146,7 @@ const actualizarAlumno = async (req, res, next) => {
 const obtenerMaestroDatos = async (req, res, next) => {
   try {
     const data = await pool.query("SELECT * FROM maestros");
-    console.log(res.json(data.rows));
+    res.json(data.rows);
   } catch (error) {
     next(error);
     console.log("Error al obetener maestros");
@@ -174,7 +174,6 @@ const eliminarMaestro = async (req, res, next) => {
       "DELETE FROM maestros where maestro_id = $1",
       [maestro_id]
     );
-    console.log(eliminar.json());
   } catch (error) {
     next(error);
   }
@@ -188,18 +187,16 @@ const obtenerMaestro = async (req, res, next) => {
       "SELECT * FROM maestros WHERE maestro_id = $1",
       [maestro_id]
     );
-    res.json(actualizar.rows[0]);
+    res.json(actualizar.rows);
   } catch (error) {
     next(error);
   }
 };
 
-
 const actualizarMaestro = async (req, res, next) => {
   try {
     const { maestro_id } = req.params;
-    const { nombre_maestro, apellido_maestro, especialidad} =
-      req.body;
+    const { nombre_maestro, apellido_maestro, especialidad } = req.body;
     const actualizar = await pool.query(
       "UPDATE maestros SET nombre_maestro= $2, apellido_maestro = $3, especialidad = $4 WHERE maestro_id = $1",
       [maestro_id, nombre_maestro, apellido_maestro, especialidad]
@@ -210,6 +207,46 @@ const actualizarMaestro = async (req, res, next) => {
   }
 };
 
+const obtenerAlumnoMateria = async (req, res, next) => {
+  try {
+    console.log("Hola mundo!!");
+    const resultado = await pool.query(
+      "SELECT * FROM alumno JOIN alumno_materia  ON alumno.alumno_id = alumno_materia.alumno_id JOIN curso  ON curso.curso_id = alumno_materia.curso_id"
+    );
+    res.json(resultado.rows);
+  } catch (error) {
+    console.log("Error");
+  }
+};
+
+//Horario
+const obtenerHorario = async (req, res, next) => {
+  try {
+    const resultado = await pool.query("SELECT * FROM horario");
+    res.json(resultado.rows);
+  } catch (error) {
+    console.log("Error al obtener los horarios");
+  }
+};
+
+const obtenerCursos = async (req, res, next) => {
+  try {
+    const resultado = await pool.query("SELECT * FROM curso");
+    res.json(resultado.rows);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const insertarMateria = async (req, res, next) => {
+  try {
+    const {alumno_id, curso_id} = req.body;
+    const peticion = await pool.query("INSERT INTO alumno_materia (alumno_id, curso_id) VALUES ($1, $2)",[alumno_id, curso_id]);
+    res.json(); 
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   getAllRequest,
@@ -226,5 +263,9 @@ module.exports = {
   obtenerMaestro,
   insertarMaestro,
   eliminarMaestro,
-  actualizarMaestro
+  actualizarMaestro,
+  obtenerHorario,
+  obtenerCursos,
+  obtenerAlumnoMateria,
+  insertarMateria
 };

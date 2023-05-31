@@ -16,7 +16,11 @@ const {
   insertarMaestro,
   eliminarMaestro,
   obtenerMaestro,
-  actualizarMaestro
+  actualizarMaestro,
+  obtenerHorario,
+  obtenerCursos,
+  obtenerAlumnoMateria,
+  insertarMateria
 } = require("../controllers/system.controller.js");
 
 const router = Router();
@@ -41,6 +45,14 @@ router.get("/maestro/:maestro_id", obtenerMaestro);
 router.put("/maestro/:maestro_id", actualizarMaestro);
 router.post("/maestro", insertarMaestro);
 router.delete("/maestro/:maestro_id", eliminarMaestro);
+
+//Horarios
+router.get("/horario", obtenerHorario);
+
+//Cursos
+router.get("/cursos", obtenerCursos);
+router.get("/cursos/alumno", obtenerAlumnoMateria);
+router.post("/cursos", insertarMateria)
 
 
 //Cursos
